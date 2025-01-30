@@ -3,7 +3,7 @@ name: Setup for Node.js and NPM
 on:
   push:
     branches:
-      - main
+      - master
   workflow_dispatch:
 
 jobs:
@@ -22,12 +22,12 @@ jobs:
         run: npm install
 
       - name: Build the project
-        run: npm run build  # This will work now since the build script is defined
+        run: npm run build  # This will now create the dist directory
 
       - name: Create staging directory and copy artifacts
         run: |
           mkdir -p staging
-          cp -r dist/* staging/  # Ensure the "dist" folder is the correct output folder
+          cp -r dist/* staging/  # This will work after the build
 
       - name: Upload package artifacts
         uses: actions/upload-artifact@v4
