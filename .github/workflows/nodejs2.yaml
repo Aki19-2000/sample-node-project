@@ -1,4 +1,4 @@
-name: Node.js Build and Upload Package
+name: Setup for Node.js and NPM
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build_and_publish:
+  echo_nodejs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -21,29 +21,16 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Debug - List Files Before and After Build
-        run: |
-          echo "Listing files BEFORE build:"
-          ls -la
-          echo "Running build..."
-          npm run build || echo "⚠No build script found!"
-          echo "Listing files AFTER build:"
-          ls -la
+      - name: Build the project
+        run: npm run build
 
       - name: Create staging directory and copy artifacts
         run: |
           mkdir -p staging
-          if [ -d "dist" ] && [ "$(ls -A dist)" ]; then
-            cp -r dist/* staging/
-            echo "Files copied to staging."
-          else
-            echo "No build output found. Build step may have failed."
-            exit 1
-          fi
+          cp -r dist/* staging/  # Change "dist" to your actual build folder
 
       - name: Upload package artifacts
-        if: success()
         uses: actions/upload-artifact@v4
         with:
-          name: NodePackage
+          name: Package
           path: staging
