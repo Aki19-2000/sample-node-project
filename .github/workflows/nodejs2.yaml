@@ -22,23 +22,13 @@ jobs:
         run: |
           npm install
 
-      - name: Run build
-        run: |
-          npm run build  # Build your project
-
-      - name: Create staging directory and copy build artifacts
+      - name: Create staging directory and copy artifacts
         run: |
           mkdir -p staging
-          cp -r dist/* staging/  # Copy build artifacts from dist/
+          cp -r src/* staging/  # Adjust this to your file structure
 
       - name: Upload package artifacts
         uses: actions/upload-artifact@v4
         with:
           name: NodePackage
           path: staging
-
-      - name: Authenticate with npm
-        run: echo "//registry.npmjs.org/:_authToken=${{secrets.NPM_TOKEN}}" > ~/.npmrc
-
-      - name: Publish to npm
-        run: npm publish --access public
