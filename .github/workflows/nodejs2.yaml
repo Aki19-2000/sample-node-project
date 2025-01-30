@@ -24,6 +24,10 @@ jobs:
       - name: Build the project
         run: npm run build  # This will now create the dist directory
 
+      - name: Verify contents of dist directory
+        run: |
+          ls -alh dist/  # This will list files in the dist directory
+
       - name: Create staging directory and copy artifacts
         run: |
           mkdir -p staging
