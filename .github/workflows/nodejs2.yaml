@@ -22,12 +22,12 @@ jobs:
         run: npm install
 
       - name: Build the project
-        run: npm run build  # Make sure this works now
+        run: npm run build
 
       - name: Create staging directory and copy artifacts
         run: |
           mkdir -p staging
-          cp -r dist/* staging/  # Update with your actual build output folder
+          cp -r dist/* staging/  # Ensure "dist" is your output directory
 
       - name: Upload package artifacts
         uses: actions/upload-artifact@v4
