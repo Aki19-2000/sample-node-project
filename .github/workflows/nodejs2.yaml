@@ -3,8 +3,8 @@ name: Setup for Node.js and Build Package
 on:
   push:
     branches:
-      - main
-  workflow_dispatch:  # Manual trigger
+      - master
+  workflow_dispatch:
 
 jobs:
   build_and_publish:
@@ -19,13 +19,18 @@ jobs:
           node-version: '16'
 
       - name: Install dependencies
-        run: |
-          npm install
+        run: npm install
+
+      - name: Run Build (if required)
+        run: npm run build || echo "No build step defined"  # Runs build only if it exists
+
+      - name: List Files (Debugging)
+        run: ls -la  # Check available files before copying
 
       - name: Create staging directory and copy artifacts
         run: |
           mkdir -p staging
-          cp -r src/* staging/  # Adjust this to your file structure
+          if [ -d "dist" ]; then cp -r dist/* staging/; else echo "No dist directory found"; fi
 
       - name: Upload package artifacts
         uses: actions/upload-artifact@v4
