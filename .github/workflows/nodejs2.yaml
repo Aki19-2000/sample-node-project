@@ -3,7 +3,7 @@ name: Setup for Node.js and Build Package
 on:
   push:
     branches:
-      - main
+      - master
   workflow_dispatch:
 
 jobs:
